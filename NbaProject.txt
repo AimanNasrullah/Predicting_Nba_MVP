@@ -1,0 +1,32 @@
+years = range(1991,2022) --- range from 1991 -> 2021
+---------------------------------------------------------------------
+for year for years:
+    url = url.start.format(year) // iterate all years
+---------------------------------------------------------------------
+data = request.get(url) //download that website for each year
+---------------------------------------------------------------------
+//Write html to that file(each year) and save it in folder "mvp" 
+with open("mvp/{}.html".format(year), "w+",encoding="utf-8") as f:
+        f.write(data.text)
+---------------------------------------------------------------------
+!pip install beautifulsoup4 // library to parse web pages
+---------------------------------------------------------------------
+dfs = []
+for year in years
+    with open("mvp/{}.html".format(year),encoding="utf-8") as f:
+        page = f.read()
+    soup = BeautifulSoup(page, "html.parser")
+    soup.find('tr', class_="over_header").decompose()# to remove the unimportant things (things that has tr tags and in over_header class)
+    mvp_table = soup.find(id="mvp") # to get the things that we want(mvp table), in this case things that id=mvp
+    mvp = pd.read_html(str(mvp_table))[0] #get the dataframe(one) for each year
+    
+    dfs.append(mvp) #combine all the dataframe
+-----------------------------------------------------------------------------
+for year in years:
+    url = player_stats_url.format(year)
+    data = requests.get(url)
+
+    with open("player/{}.html".format(year), "w+", encoding="utf-8") as f:
+        f.write(data.text)
+
+    time.sleep(15)  # Delay for 15 seconds before making the next request, to avoid 429 error (too many request in a short period of time)
